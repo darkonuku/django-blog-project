@@ -1,0 +1,26 @@
+
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% for post in posts %}
+
+	Title: {{ post.title }}
+	Body: {{ post.body }}
+	Date Created: {{ post.created }}
+	Date Updted: {{ post.updated }}
+
+{% endfor %}
+
+{% for com in comments %}
+
+	Author: {{ com.author }}
+	Body: {{ com.body }}
+	Date Created: {{ com.created }}
+	Date Updated: {{ com.updated }}
+
+
+{% endfor %}
+
+
+{% endblock %}

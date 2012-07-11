@@ -10,8 +10,13 @@ class Post(models.Model):
 	updated = models.DateField(auto_now = True)
 	def __unicode__(self):
 		return self.title
-	def title_first_60(self):
+	def body_first_60(self):
 		return self.body[:60]
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('post_detail',(), {'id':self.id,'showComments':'true/'})
+
 
 class Comment(models.Model):
 	body = models.TextField()
@@ -27,7 +32,7 @@ class CommentInline(admin.TabularInline):
 	model = Comment
 
 class PostAdmin(admin.ModelAdmin):
-	list_display = ('title','title_first_60','created')
+	list_display = ('title','body_first_60','created')
 	list_filter = ('title','created')
 	search_fields = ('title','created')
 	ordering = ('title','-created')

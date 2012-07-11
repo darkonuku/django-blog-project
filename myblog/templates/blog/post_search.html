@@ -1,0 +1,15 @@
+
+
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+	Search query term: {{ term }}<br/>
+	
+	{% for items in posts %}
+	
+		{{ items.title }}
+	
+	{% endfor %}
+
+{% endblock %}
