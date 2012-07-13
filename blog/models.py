@@ -18,6 +18,8 @@ class Post(models.Model):
 		return ('post_detail',(), {'id':self.id,'showComments':'true/'})
 
 
+
+
 class Comment(models.Model):
 	body = models.TextField()
 	author = models.CharField(max_length = 60)

@@ -9,12 +9,14 @@
 <p>
 	<ul>
 		<li>
-		Created: {{ item.created }}
-		Last Updated: {{ item.updated }}
+		Posts: <a href = "../posts/{{item.id}}">{{item.title}}</a>
+		Created: {{ item.created }}<br/>
+		Last Updated: {{ item.updated }}<br/>
 		{{ item.body_first_60 }}	
 		</li>
 	</ul>
 </p>
 
 {% endfor %}
+
 {% endblock %}

@@ -4,9 +4,10 @@ This code should be copied and pasted into your blog/views.py file before you be
 """
 from django.template import Context, loader
 from django.shortcuts import render_to_response
-from django.template import Context, loader
 from django.http import HttpResponse
-
+from django.forms import ModelForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 from models import Post, Comment 
 
 
@@ -17,18 +18,56 @@ def post_list(request):
 	return HttpResponse(t.render(c))
 
 
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        exclude=['post']
+
+
+
+@csrf_exempt
 def post_detail(request, id, showComments = False):
     post_value = Post.objects.get(pk = id)
-    comment = ''
+
+    if request.method == 'POST':	
+        comment = Comment(post=post_value)
+        form = CommentForm(request.POST, instance = comment)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path)
+    else:
+        form = CommentForm()
+
     if showComments != False:
-        for i in Comment.objects.filter(id=id):
-            comment = i.body
+        comment = Comment.objects.filter(post_id=id) 
+        tt = loader.get_template('blog/post_detail.html')
+        cc = Context({'comments': comment})       
     else:
         pass
-    #html = "<html><body><b>Post:</b><br/> %s <br/><b>Comment:</b> <br/>%s</body></html>"%(post_value,comment)
-    return render_to_response('blog/.post_detail.html',{'post': post, 'comments':comments})
+    return render_to_response('blog/post_detail.html',{'post': post_value, 'comments':comment, 'form' : form})
 
-    
+
+
+@csrf_exempt
+def edit_comment(request,id):
+    comment = Comment.objects.get(pk = id)
+
+    if request.method == 'POST':	
+        #comment = Comment(post=post_value)
+        form = CommentForm(request.POST, instance = comment)
+        if form.is_valid():
+            form.save()
+	
+            return HttpResponseRedirect('/blog/posts/' + str(comment.post.id))
+    else:
+        form = CommentForm(instance = comment)
+       
+
+    return render_to_response('blog/edit_comment.html',{'post': comment, 'form' : form})
+
+
+
+
 def post_search(request, term):
     found = ''
     found_posts = Post.objects.filter(body__contains = term)
@@ -38,3 +77,5 @@ def post_search(request, term):
 
 def home(request):
     return render_to_response('blog/base.html',{}) 
+
+

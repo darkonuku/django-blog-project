@@ -3,24 +3,36 @@
 
 {% block content %}
 
-{% for post in posts %}
+<h4>Post</h4>
+	Title: {{ post.title }}<br/>
+	Body: {{ post.body }}<br/>
+	Date Created: {{ post.created }}<br/>
+	Date Updted: {{ post.updated }}<br/><br/>
 
-	Title: {{ post.title }}
-	Body: {{ post.body }}
-	Date Created: {{ post.created }}
-	Date Updted: {{ post.updated }}
-
-{% endfor %}
-
+<h4>Comments</h4>
 {% for com in comments %}
 
-	Author: {{ com.author }}
-	Body: {{ com.body }}
-	Date Created: {{ com.created }}
-	Date Updated: {{ com.updated }}
-
-
+	Author: {{ com.author }}<br/>
+	Body: {{ com.body }}<br/>
+	Date Created: {{ com.created }}<br/>
+	Date Updated: {{ com.updated }}<br/>
+<div>
+	<a href="/blog/comments/{{ com.id }}/edit">Edit Comment</a>
+</div><br/>
 {% endfor %}
+
+<h3>New comment:</h3>
+<div>
+	<form method='post' action="">
+	{{ form.as_p }}
+	<input type='submit' name='Submit'>
+	</form>
+</div>
+
+
+
+
+
 
 
 {% endblock %}
