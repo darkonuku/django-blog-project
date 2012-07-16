@@ -1,0 +1,23 @@
+
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+
+{% if logged_in %}
+
+<p>You are already logged in. click on the link below to logout</p>
+<a href = "reg.views.logout">Logout</a>
+
+
+{% else %}
+
+
+  <form action="." method="post">
+     {{ form.as_p }}
+     <input type="submit" value="Submit" value="Login!" />
+  </form>
+{% endif %}
+
+
+{% endblock %}
