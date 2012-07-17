@@ -4,7 +4,7 @@ This code should be copied and pasted into your blog/views.py file before you be
 """
 from django.template import Context, loader
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.forms import ModelForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
@@ -21,7 +21,8 @@ def post_list(request):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        exclude=['post']
+        exclude=['post','author']
+
 
 
 
@@ -31,8 +32,10 @@ def post_detail(request, id, showComments = False):
 
     if request.method == 'POST':	
         comment = Comment(post=post_value)
+
         form = CommentForm(request.POST, instance = comment)
         if form.is_valid():
+	    comment.author = str(request.user)
             form.save()
             return HttpResponseRedirect(request.path)
     else:
@@ -44,13 +47,15 @@ def post_detail(request, id, showComments = False):
         cc = Context({'comments': comment})       
     else:
         pass
-    return render_to_response('blog/post_detail.html',{'post': post_value, 'comments':comment, 'form' : form})
+    return render_to_response('blog/post_detail.html',{'post': post_value, 'comments':comment, 'form' : form, 'user' : str(request.user)})
 
 
 
 @csrf_exempt
 def edit_comment(request,id):
     comment = Comment.objects.get(pk = id)
+    if comment.author != str(request.user):
+	return HttpResponseForbidden('you do not hav permission to edit this post')
 
     if request.method == 'POST':	
         #comment = Comment(post=post_value)

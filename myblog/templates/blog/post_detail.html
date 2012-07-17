@@ -3,6 +3,7 @@
 
 {% block content %}
 
+
 <h4>Post</h4>
 	Title: {{ post.title }}<br/>
 	Body: {{ post.body }}<br/>
@@ -11,16 +12,19 @@
 
 <h4>Comments</h4>
 {% for com in comments %}
-
+<br/>
 	Author: {{ com.author }}<br/>
 	Body: {{ com.body }}<br/>
 	Date Created: {{ com.created }}<br/>
 	Date Updated: {{ com.updated }}<br/>
+{% if user == com.author %}
 <div>
 	<a href="/blog/comments/{{ com.id }}/edit">Edit Comment</a>
-</div><br/>
+</div><br/><br/>
+{% endif %}
 {% endfor %}
 
+{% if user != 'AnonymousUser' %}
 <h3>New comment:</h3>
 <div>
 	<form method='post' action="">
@@ -28,11 +32,6 @@
 	<input type='submit' name='Submit'>
 	</form>
 </div>
-
-
-
-
-
-
+{% endif %}
 
 {% endblock %}

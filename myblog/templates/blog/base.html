@@ -6,15 +6,71 @@
 
 		<title>selaseBlog</title>
 	</head>
+<body>
+		<div id="wrapper">
+			<div id="header">
+				<div id="logo">
+					<h1><a href="#">Blog</a></h1>
+				</div>
+				<div id="menu">
+					<ul>
+						<li class="first active"><a href="#">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Photos</a></li>
+						<li><a href="#">Portfolio</a></li>
+						<li class="last"><a href="#">Contact</a></li>
+					</ul>
+					<br class="clearfix" />
+				</div>
+			</div>
+			<div id="page">
+				<div id="sidebar">
+					<div class="box">
+						<h3><i>Need to know</i></h3>
+						<p>
+							This is the Selase Blog. You are welcome and encouraged to participate by posting uefull posts and making usefull comments.
+						</p>
+						
+					</div>
+					<div class="box">
+						
+					</div>
+				</div>
+<div class="box">
+						<h3><i>Welcome {{user}}, to the selase Blog</i></h3>
+						
+					</div>
 
-	<body>
-		<a href = "/blog/posts/">Click to visit blog</a>
+				<div id="content">
 
-		<div id = content>
-		{% block content %}
+					<div class="box">
+                                        <h3><a href = "/blog/posts/">Click to visit blog</a></h3>
 
-		{% endblock %}
+					
+					{% block content %}
+
+					{% endblock %}
+
+						
+					
+					
+					<div class="box">
+						
+					</div>
+					<br class="clearfix" />
+				</div>
+				<br class="clearfix" />
+			</div>
+			<div id="page-bottom">
+				
+				<div id="page-bottom-content">
+				
+				</div>
+				<br class="clearfix" />
+			</div>
 		</div>
-
+		<div id="footer">
+			&copy; 2012 Design by Darko Nuku 
+		</div>
 	</body>
 </html>
